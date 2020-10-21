@@ -13,6 +13,8 @@ const render = require("./lib/htmlRenderer");
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
+const teamMembers = [];
+const idArray = [];
 
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
@@ -33,3 +35,85 @@ const render = require("./lib/htmlRenderer");
 // for further information. Be sure to test out each class and verify it generates an
 // object with the correct structure and methods. This structure will be crucial in order
 // for the provided `render` function to work! ```
+
+function appMenu(){
+    function createManager() {
+        console.log("Build your team!");
+        inquirer.prompt([
+            {
+                type: "input",
+                name: "managerName",
+                message: "What is your manager's name?",
+                validate: answer => {
+                    if (answer !== "") {
+                        return true;
+                        }
+                        return "Enter at least ONE character!";
+                    }
+            },
+            {
+                type: "input",
+                name: "ManagerId",
+                message: "What is your Manager ID?",
+                validate: answer => {
+                    const pass = answer.match(
+                        /^[1-9]\d*$/
+                    );
+                    if (pass) {
+                        return true;
+                    }
+                    return "ID number must be a positive number greater than 0!";
+                }
+            },
+            {
+                type: "input",
+                name: "managerId",
+                message: "What is your manager's id?",
+                validate: answer => {
+                    const pass = answer.match(
+                        /^[1-9]\d*$/
+                    );
+                    if (pass) {
+                    return true;
+                    }
+                    return "Please enter a positive number greater than zero.";
+        }
+      },
+      {
+        type: "input",
+        name: "managerEmail",
+        message: "What is your manager's email?",
+        validate: answer => {
+          const pass = answer.match(
+            /\S+@\S+\.\S+/
+          );
+          if (pass) {
+            return true;
+          }
+          return "Please enter a valid email address.";
+        }
+      },
+      {
+        type: "input",
+        name: "managerOfficeNumber",
+        message: "What is your manager's office number?",
+        validate: answer => {
+          const pass = answer.match(
+            /^[1-9]\d*$/
+          );
+          if (pass) {
+            return true;
+          }
+          return "Please enter a positive number greater than zero.";
+        }
+      }
+    ]).then(answers => {
+      const manager = new Manager(answers.managerName, answers.managerId, answers.managerEmail, answers.managerOfficeNumber);
+      teamMembers.push(manager);
+      idArray.push(answers.managerId);
+      createTeam();
+    });
+  }
+}
+
+
